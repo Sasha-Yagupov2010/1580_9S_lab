@@ -22,9 +22,7 @@ def translate_hours(hours):
 
 
 def translate_minutes(minutes):
-    if minutes == 0:
-        form = "ровно"
-    else:
+    if minutes != 0:
         print(minutes, end=" ")
         last_digit = minutes % 10
         if minutes >= 11 and minutes <= 14:
@@ -36,19 +34,23 @@ def translate_minutes(minutes):
         else:
             form = "минут"
 
-    print(form, end=" ")
+        print(form, end=" ")
 
 
 def print_time_of_day(hours, minutes):
     if 0 <= hours < 6:
-        return "ночь"
+        form = "ночи"
     elif 6 <= hours < 12:
-        return "утро"
+        form = "утра"
     elif 12 <= hours < 18:
-        return "день"
+        form = "дня"
     else:
-        return "вечер"
+        form = "вечера"
+    print(form,end=" ")
 
+def print_exactly(minutes):
+    if minutes == 0:
+        print("ровно", end=" ")
 
 def check_hours(hours):
     if hours >= 0 and hours <= 23:
@@ -91,6 +93,7 @@ def main():
                     translate_hours(hours)
                     translate_minutes(minutes)
                     print_time_of_day(hours, minutes)
+                    print_exactly(minutes)
             else:
                 print(output_error_text)
 
