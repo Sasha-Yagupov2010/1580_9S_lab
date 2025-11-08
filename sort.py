@@ -58,33 +58,20 @@ def insertion_sort(arr):
 
 
 def draw_table(selection_comparisons, bubble_comparisons, insertion_comparisons,selection_swaps, bubble_swaps, insertion_swaps):
-    header = (
-        f"{'Метод сортировки':<20} | "
-        f"{'Сравнений':<12} | "
-        f"{'Перестановок':<15}"
-    )
+    print()
+    header = f"{'Метод сортировки':<20} | "f"{'Сравнений':<12} | "f"{'Перестановок':<15}"
     separator = '-' * len(header)
     print(separator)
     print(header)
     print(separator)
 
-    # Строки с данными
-    print(
-        f"{'Selection Sort':<20} | "
-        f"{selection_comparisons:<12} | "
-        f"{selection_swaps:<15}"
-    )
-    print(
-        f"{'Bubble Sort':<20} | "
-        f"{bubble_comparisons:<12} | "
-        f"{bubble_swaps:<15}"
-    )
-    print(
-        f"{'Insertion Sort':<20} | "
-        f"{insertion_comparisons:<12} | "
-        f"{insertion_swaps:<15}"
-    )
+
+    print(f"{'Selection Sort':<20} | "f"{selection_comparisons:<12} | "f"{selection_swaps:<15}")
+    print(f"{'Bubble Sort':<20} | "f"{bubble_comparisons:<12} | "f"{bubble_swaps:<15}")
+    print(f"{'Insertion Sort':<20} | " f"{insertion_comparisons:<12} | "f"{insertion_swaps:<15}")
+
     print(separator)
+    print()
 
 
 def demo_mode():
@@ -100,22 +87,69 @@ def demo_mode():
         bubble_arr,bubble_comparisons,bubble_swaps = bubble_sort(arr)
         insertion_arr,insertion_comparisons,insertion_swaps = insertion_sort(arr)
 
-        print()
 
         draw_table(selection_comparisons, bubble_comparisons, insertion_comparisons,selection_swaps, bubble_swaps, insertion_swaps)
+
     else:
         print("ошибка")
 
 
+def input_array():
+    print("введите числа массива через пробел")
+    try:
+        arr = list(map(int, input().split()))
+        return arr
+    except ValueError:
+        print("ошибка!")
+        return []
 
 def interactive_mode():
-    print("")
+    print("1 - создать массив")
+    print("2 - сгенерировать массив")
+    array = []
     input_line = input().split()
-    if len(input_line) == 3:
-        if input_line[0].isdigit() and input_line[1].isdigit()and input_line[2].isdigit():
-            min_count = int(input_line[0])
-            max_count = int(input_line[1])
-            arr_length = int(input_line[2])
+    try:
+        if len(input_line) != 1:
+            raise ValueError("Некорректное количество вводимых данных")
+        choice = int(input_line[0])
+        if choice == 1:
+            array = input_array()
+
+        elif choice == 2:
+            print("введите параметры через пробел:")
+            print("мин.значение макс.значение длинна")
+            try:
+                min_value,max_value,array_length = map(int, input().split())
+                array = generate_random_list(min_value, max_value, array_length)
+            except ValueError:
+                print("ошибка ввода")
+
+
+        print("выбирите вариант сортировки")
+        print("1 - выборочная")
+        print("2 - пузырьковая")
+        print("3 - вставочная")
+
+        try:
+            selection = int(input())
+            if selection == 1:
+                sorted_array, comparisons, swaps = selection_sort(array)
+            elif selection == 2:
+                sorted_array, comparisons, swaps = bubble_sort(array)
+            else:
+                sorted_array, comparisons, swaps = insertion_sort(array)
+        except ValueError:
+            print("ошибка ввода")
+            return
+        print("оригинальный массив:")
+        print(*array)
+        print("отсортированный массив:")
+        print(*sorted_array)
+
+    except ValueError:
+        print("ошибка ввода")
+        return
+
 
 
 def main():
