@@ -56,6 +56,7 @@ def check_hours(hours):
     if hours >= 0 and hours <= 23:
         return True
     else:
+        print("Введены недопустимые данные: часы должны быть от 0 до 23.")
         return False
 
 
@@ -63,13 +64,13 @@ def check_minutes(minutes):
     if minutes >= 0 and minutes <= 59:
         return True
     else:
+        print("Введены недопустимые данные: минуты должны быть от 0 до 59.")
         return False
 
-output_error_text = "Ошибка, неверный формат вводимых данных!"
 
 def main():
     ''' обработка ввода чисел'''
-
+    print()
     print("Введите время в формате:")
     print("часы минуты")
 
@@ -95,16 +96,18 @@ def main():
                     print_time_of_day(hours, minutes)
                     print_exactly(minutes)
             else:
-                print(output_error_text)
+                return
 
         else:
-            print(output_error_text)
+            return
 
     else:
-        print(output_error_text)
+        return
 
 
 
 
 if __name__ == "__main__":
     main()
+
+
