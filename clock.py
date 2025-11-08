@@ -69,7 +69,7 @@ def check_minutes(minutes):
 
 
 def main():
-    ''' обработка ввода чисел'''
+    '''Обработка ввода чисел с использованием try'''
     print()
     print("Введите время в формате:")
     print("часы минуты")
@@ -77,32 +77,33 @@ def main():
     input_line = input()
     parts = input_line.split()
 
-    if len(parts) == 2:
-        hours = parts[0]
-        minutes = parts[1]
-
-        if hours.isdigit() and minutes.isdigit():
-            hours = int(hours)
-            minutes = int(minutes)
-
-            if check_hours(hours) and check_minutes(minutes):
-                if hours == 0 and minutes == 0:
-                    print("полночь")
-                elif hours == 12 and minutes == 0:
-                    print("полдень")
-                else:
-                    translate_hours(hours)
-                    translate_minutes(minutes)
-                    print_time_of_day(hours, minutes)
-                    print_exactly(minutes)
-            else:
-                return
-
-        else:
-            return
-
-    else:
+    if len(parts) != 2:
+        print("ошибка, вводите время в заданном формате")
         return
+
+    try:
+        hours = int(parts[0])
+        minutes = int(parts[1])
+    except ValueError:
+        print("ошибка, вводите время в заданном формате")
+        return
+
+
+    if not check_hours(hours):
+        return
+    if not check_minutes(minutes):
+        return
+
+
+    if hours == 0 and minutes == 0:
+        print("полночь")
+    elif hours == 12 and minutes == 0:
+        print("полдень")
+    else:
+        translate_hours(hours)
+        translate_minutes(minutes)
+        print_time_of_day(hours, minutes)
+        print_exactly(minutes)
 
 
 
