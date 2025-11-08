@@ -8,10 +8,8 @@
 
 def translate_hours(hours):
     print(hours,end=" ")
-    last_two_digits = hours % 100
     last_digit = hours % 10
-
-    if 11 <= last_two_digits <= 14:
+    if 11 <= hours <= 14:
         form = "часов"
     elif last_digit == 1:
         form = "час"
@@ -20,11 +18,36 @@ def translate_hours(hours):
     else:
         form = "часов"
 
-    print(form,end="")
+    print(form,end=" ")
 
 
 def translate_minutes(minutes):
-    print(minutes,end=" ")
+    if minutes == 0:
+        form = "ровно"
+    else:
+        print(minutes, end=" ")
+        last_digit = minutes % 10
+        if minutes >= 11 and minutes <= 14:
+            form = "минут"
+        elif last_digit == 1:
+            form = "минута"
+        elif 2 <= last_digit <= 4:
+            form = "минуты"
+        else:
+            form = "минут"
+
+    print(form, end=" ")
+
+
+def print_time_of_day(hours, minutes):
+    if 0 <= hours < 6:
+        return "ночь"
+    elif 6 <= hours < 12:
+        return "утро"
+    elif 12 <= hours < 18:
+        return "день"
+    else:
+        return "вечер"
 
 
 def check_hours(hours):
@@ -40,7 +63,8 @@ def check_minutes(minutes):
     else:
         return False
 
-input_error_text = "Ошибка, неверный формат вводимых данных!"
+output_error_text = "Ошибка, неверный формат вводимых данных!"
+
 def main():
     ''' обработка ввода чисел'''
 
@@ -59,18 +83,22 @@ def main():
             minutes = int(minutes)
 
             if check_hours(hours) and check_minutes(minutes):
-                translate_hours(hours)
-                translate_minutes(minutes)
+                if hours == 0 and minutes == 0:
+                    print("полночь")
+                elif hours == 12 and minutes == 0:
+                    print("полдень")
+                else:
+                    translate_hours(hours)
+                    translate_minutes(minutes)
+                    print_time_of_day(hours, minutes)
             else:
-                print(input_error_text)
+                print(output_error_text)
 
         else:
-            print(input_error_text)
+            print(output_error_text)
 
     else:
-        print(input_error_text)
-
-
+        print(output_error_text)
 
 
 
