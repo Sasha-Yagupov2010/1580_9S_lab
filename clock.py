@@ -8,6 +8,19 @@
 
 def translate_hours(hours):
     print(hours,end=" ")
+    last_two_digits = hours % 100
+    last_digit = hours % 10
+
+    if 11 <= last_two_digits <= 14:
+        form = "часов"
+    elif last_digit == 1:
+        form = "час"
+    elif 2 <= last_digit <= 4:
+        form = "часа"
+    else:
+        form = "часов"
+
+    print(form,end="")
 
 
 def translate_minutes(minutes):
