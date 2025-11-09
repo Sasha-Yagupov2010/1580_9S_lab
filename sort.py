@@ -103,6 +103,19 @@ def input_array():
         print("ошибка!")
         return []
 
+def edit_array(array):
+    print(array)
+    print("для изменения введите измененный массив")
+    print("сохранить исходный - ок")
+    input_line = input().split()
+    if input_line[0].lower() == "ок":
+        return array
+    try:
+        edited_arr = list(map(int, input_line))
+        return edited_arr
+    except ValueError:
+        return array
+
 def interactive_mode():
     print("1 - создать массив")
     print("2 - сгенерировать массив")
@@ -121,6 +134,7 @@ def interactive_mode():
             try:
                 min_value,max_value,array_length = map(int, input().split())
                 array = generate_random_list(min_value, max_value, array_length)
+                array = edit_array(array)
             except ValueError:
                 print("ошибка ввода")
 
@@ -143,8 +157,11 @@ def interactive_mode():
             return
         print("оригинальный массив:")
         print(*array)
+        print("-"*10)
         print("отсортированный массив:")
         print(*sorted_array)
+        print()
+        print("сравнения:",comparisons," перестановки:",swaps)
 
     except ValueError:
         print("ошибка ввода")
