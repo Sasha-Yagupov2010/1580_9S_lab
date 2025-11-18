@@ -80,7 +80,11 @@ def main():
     if len(parts) != 2:
         print("ошибка, вводите время в заданном формате")
         return
-
+    
+    #if parts[0].count("-")!=0 or parts[1].count("-")!=0:
+    if parts[0].startswith('-') or parts[1].startswith('-'):#правильнее, исключение особых случаев
+        print("ошибка, вводите время в верном диапозоне значений")
+        return
     try:
         hours = int(parts[0])
         minutes = int(parts[1])
@@ -110,5 +114,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
