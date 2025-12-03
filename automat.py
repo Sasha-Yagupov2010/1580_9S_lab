@@ -54,6 +54,10 @@ def main():
         return
     try:
         money = int(input("Введите сумму денег: "))
+        if money<0:
+            print("Некорректный ввод суммы.")
+            return            
+            
     except ValueError:
         print("Некорректный ввод суммы.")
         return
