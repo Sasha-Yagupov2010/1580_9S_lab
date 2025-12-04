@@ -84,9 +84,13 @@ def draw_table(selection_comparisons, bubble_comparisons, insertion_comparisons,
 def demo_mode():
     print("Введите длину массива:")
     input_line = input()
-    if input_line.isdigit():
+    try:
         arr_length = int(input_line)
-
+        
+        if arr_length<=1:
+            print("ошибка, длинна массива не должна быть меньше 2")#равная 1 не имеет смысл
+            return
+        
         arr = generate_random_list(0, 99, arr_length)
         print("Созданный массив:")
         print(*arr)
@@ -98,7 +102,7 @@ def demo_mode():
         draw_table(selection_comparisons, bubble_comparisons, insertion_comparisons, 
                   selection_swaps, bubble_swaps, insertion_swaps)
 
-    else:
+    except ValueError:
         print("Ошибка: введите число")
 
 def input_array():
@@ -152,6 +156,15 @@ def interactive_mode():
                     print("Ошибка: нужно ввести 3 числа!")
                     return
                 min_value, max_value, array_length = map(int, params)
+                
+                if array_length<=1:
+                    print("ошибка, длинна массива не должна быть меньше 2")#равная 1 не имеет смысл
+                    return
+                '''
+                if array_length>100000:#в условии не сказанно но пользователь может ввести огромную длинну для генерации
+                    print("Внимание, возможно длительное выполнение программы!")
+                    return
+                '''    
                 if min_value > max_value:
                     min_value, max_value = max_value, min_value
                     print("Заметка: min и max значения были автоматически поменяны местами")#можно было просто min max, но почему бы не сказать пользователю
