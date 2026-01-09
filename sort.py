@@ -91,7 +91,7 @@ def demo_mode():
         draw_table(selection_comparisons, bubble_comparisons, insertion_comparisons,selection_swaps, bubble_swaps, insertion_swaps)
 
     else:
-        print("ошибка, введите число")
+        print("ошибка, введите корректную длинну массива")
 
 
 def input_array():
@@ -128,6 +128,10 @@ def interactive_mode():
         choice = int(input_line[0])
         if choice == 1:
             array = input_array()
+            if array == []:
+                print("массив пуст")
+                return
+
 
         elif choice == 2:
             print("введите параметры через пробел:")
@@ -142,7 +146,7 @@ def interactive_mode():
                     print("меньшее значение больше большего")
                     return
                 array = generate_random_list(min_value, max_value, array_length)
-                array = edit_array(array)
+                array = edit_array(array.copy())
             except ValueError:
                 print("ошибка ввода")
                 return
@@ -158,11 +162,11 @@ def interactive_mode():
         try:
             selection = int(input())
             if selection == 1:
-                sorted_array, comparisons, swaps = selection_sort(array)
+                sorted_array, comparisons, swaps = selection_sort(array.copy())
             elif selection == 2:
-                sorted_array, comparisons, swaps = bubble_sort(array)
+                sorted_array, comparisons, swaps = bubble_sort(array.copy())
             elif selection == 3:
-                sorted_array, comparisons, swaps = insertion_sort(array)
+                sorted_array, comparisons, swaps = insertion_sort(array.copy())
             else:
                 print("Некорректный выбор сортировки")
                 return
@@ -202,8 +206,10 @@ def main():
                     demo_mode()
                 elif tmp == 2:
                     interactive_mode()
-                else:
+                elif tmp == 3:
                     global_run = False
+                else:
+                    print("Некорректный ввод")
             else:
                 print("Некорректный ввод")
         else:
