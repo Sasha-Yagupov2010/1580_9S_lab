@@ -1,0 +1,16 @@
+[
+    {
+        "name": "example",
+        "radius": 560,
+        "mass": 720,
+        "distance": 15000,
+        "planet_type": "каменная"
+    },
+    {
+        "name": "e2",
+        "radius": 560,
+        "mass": 720,
+        "distance": 15000,
+        "planet_type": "каменная"
+    }
+]
