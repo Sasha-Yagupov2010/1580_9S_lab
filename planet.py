@@ -1,4 +1,4 @@
-import db_driver
+import db_driver as db
 
 class Planet:
     '''
@@ -41,7 +41,19 @@ def main():
     print(planet1.planet_type)
 
 def db_tester():
-    pass
+    planet1 = Planet(name="del")
+    planet2 = Planet(name="2", mass=54)
+    print(db.load_db())
+    print(db.show_db())
+    
+    db.add_obj(planet1)
+    print(db.get_object(planet1.name))
+    db.edit_obj(planet2,planet1)
+    print(db.get_object(planet2.name))
+    print(db.get_object(planet1.name))
+    db.del_obj(planet2)
+    print(db.show_db())
+
 
 
 if __name__ == "__main__":
