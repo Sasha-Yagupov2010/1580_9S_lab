@@ -12,12 +12,5 @@
         "mass": 720,
         "distance": 15000,
         "planet_type": "каменная"
-    },
-    {
-        "name": "del",
-        "radius": null,
-        "mass": null,
-        "distance": null,
-        "planet_type": null
     }
 ]

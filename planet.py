@@ -22,6 +22,40 @@ class Planet:
         self.distance = distance
         self.planet_type = planet_type
 
+        # self.__id
+
+    @staticmethod
+    def get_planet_types():
+        return ["каменная", "газовый гигант", "ледяной гигант"]    
+
+
+    def __str__(self):
+        pass
+
+    def __repr__(self):
+        pass
+
+    def __copy__(self):
+        pass
+
+    def __del__(self):
+        pass
+
+    def __lt__(self):
+        pass
+
+    def __eq__(self):
+        pass
+
+    def __gt__(self):
+        pass
+
+    def __le__(self):
+        pass
+
+    def __ge__(self):
+        pass
+
     def to_dict(self):
         return {"name":self.name, "radius": self.radius, "mass":self.mass,"distance": self.distance, "planet_type": self.planet_type }
 
@@ -40,6 +74,7 @@ def main():
     print(planet1.distance)
     print(planet1.planet_type)
 
+
 def db_tester():
     planet1 = Planet(name="del")
     planet2 = Planet(name="2", mass=54)
@@ -57,5 +92,5 @@ def db_tester():
 
 
 if __name__ == "__main__":
+    main()
     db_tester()
-    # main()
