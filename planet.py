@@ -1,5 +1,5 @@
-import db_driver as db
-
+from db_driver import Db_Driver
+db = Db_Driver("planets.json")
 import json
 
 class Planet:

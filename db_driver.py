@@ -12,26 +12,34 @@
 import json
 import os
 
-DB_FILE = "bd.json"
 
-def load_db():
-    if not os.path.exists(DB_FILE):
-        print("Файл не существует!")
-        return []  
+class Db_Driver:
+
+    def __init__(self,dbfile):
+        if dbfile:
+            self.DB_FILE = dbfile
+        else:
+            raise ValueError("пустое поле")    
     
-    try:
-        with open(DB_FILE, 'r', encoding='utf-8') as f:
-            content = f.read()
-            if content.strip():
-                data = json.loads(content)
-                return data if isinstance(data, list) else []
-            else:
-                return []
-    except json.JSONDecodeError:
-        return []
+
+    def load_db(self):
+        if not os.path.exists(self.DB_FILE):
+            print("Файл не существует!")
+            return []  
+        
+        try:
+            with open(self.DB_FILE, 'r', encoding='utf-8') as f:
+                content = f.read()
+                if content.strip():
+                    data = json.loads(content)
+                    return data if isinstance(data, list) else []
+                else:
+                    return []
+        except json.JSONDecodeError:
+            return []
 
 
-def save(data):
-    with open(DB_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
-    return True
+    def save(self,data):
+        with open(self.DB_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+        return True
