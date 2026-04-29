@@ -10,9 +10,10 @@ def planet_collection_demo():
     print("Загрузка из БД")
     if collection.load():
         print(f"Загружено планет: {collection.get_count()}")
+        collection.show_all()
     else:
         print("Ошибка загрузки из БД")
-    
+    collection.clear_all()
 
     print("Добавление планет")
     planets_to_add = [

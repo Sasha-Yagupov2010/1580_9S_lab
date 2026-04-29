@@ -4,20 +4,20 @@
         "radius": 6371,
         "mass": 5.97e+24,
         "distance": 149.6,
-        "planet_type": ""
+        "planet_type": "каменная"
     },
     {
         "name": "Марс",
         "radius": 3389,
         "mass": 6.39e+23,
         "distance": 227.9,
-        "planet_type": ""
+        "planet_type": "каменная"
     },
     {
         "name": "Юпитер",
         "radius": 69911,
         "mass": 1.898e+27,
         "distance": 778.5,
-        "planet_type": ""
+        "planet_type": "газовый гигант"
     }
 ]

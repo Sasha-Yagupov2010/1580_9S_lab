@@ -131,7 +131,7 @@ class PlanetCollection:
                         radius=item.get('radius', 0),
                         mass=item.get('mass', 0),
                         distance=item.get('distance', 0),
-                        planet_type=item.get('type', '')
+                        planet_type=item.get('planet_type', '')
                     )
                     self.add_planet(planet)
                 except Exception as e:
