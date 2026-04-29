@@ -8,6 +8,7 @@ class Planet:
     Расстояние от Солнца (млн км)
     Тип (каменная, газовый гигант, ледяной гигант)
     '''
+    _id_counter = 0
     def __init__(self, 
                  name=None, 
                  radius=None, 
@@ -22,7 +23,11 @@ class Planet:
         self.distance = distance
         self.planet_type = planet_type
 
-        # self.__id
+
+        self.__id = Planet._id_counter
+        Planet._id_counter+=1
+        print(f"Создание ID {id}")
+        
 
     @staticmethod
     def get_planet_types():
@@ -30,7 +35,7 @@ class Planet:
 
 
     def __str__(self):
-        pass
+        print(f"Планета {self.name}")
 
     def __repr__(self):
         pass
@@ -57,7 +62,13 @@ class Planet:
         pass
 
     def to_dict(self):
-        return {"name":self.name, "radius": self.radius, "mass":self.mass,"distance": self.distance, "planet_type": self.planet_type }
+        return {
+                "name":self.name,
+                "radius": self.radius,
+                "mass":self.mass,
+                "distance": self.distance,
+                "planet_type": self.planet_type 
+                }
 
 def main():
     planet1 = Planet(
