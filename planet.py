@@ -109,30 +109,32 @@ class PlanetCollection:
         print("Объект не найден в базе!")
         return False
 
-    def get_cout(self):
+    def get_count(self):
         return len(self.planet_array)
     
 
-    def check_in_db(self,new_planet):
+    def check_in_db(self, new_planet, exclude_name):
         for p in self.planet_array:
             if p.name == new_planet.name:
+                if exclude_name and p.name == exclude_name:
+                    continue 
                 print(f"Планета с именем '{new_planet.name}' уже существует!")
                 return True
-            
-        return False    
-            
+            return False
+
 
     def edit_planet(self, old_name, new_planet):
-        for i in self.get_cout():
-
+        for i in range(self.get_count()):
             if self.planet_array[i].name == old_name:
                 if old_name != new_planet.name:
-                    if not self.check_in_db(new_planet) and new_planet!=self.planet_array[i]:
 
-                        self.planet_array[i] = new_planet
-                        print(f"Планета '{old_name}' изменена на '{new_planet.name}'")
-                        return True
-        
+                    if self.check_in_db(new_planet, exclude_name=old_name):
+                        return False
+                
+                self.planet_array[i] = new_planet
+                print(f"Планета '{old_name}' изменена на '{new_planet.name}'")
+                return True
+    
         print(f"Планета '{old_name}' не найдена")
         return False
 
@@ -153,6 +155,28 @@ class PlanetCollection:
 
     ''' sort '''
 
-    def sort_planet(self, field_key="distance"):
-        pass
+    def sort_planet(self, field_key="distance", reverse=False):
+        def sorter(p):
+            if field_key == "name":
+                return p.name or ""  # Обработка None значений
+            elif field_key == "radius":
+                return p.radius or 0
+            elif field_key == "mass":
+                return p.mass or 0
+            elif field_key == "planet_type":
+                return p.planet_type or ""
+            elif field_key == "distance":
+                return p.distance or 0
+            else:
+                print(f"Неизвестное поле для сортировки: '{field_key}'. Сортирую по расстоянию")
+                return p.distance or 0
+        
+        try:
+            self.planet_array.sort(key=sorter, reverse=reverse)
+            return True
+        
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            return False
+
 
