@@ -78,7 +78,7 @@ class Planet:
 
 class PlanetCollection:
     def __init__(self):
-        planet_array = []
+        self.planet_array = []
 
     def load(self):
         self.planet_array = db.load_db()
@@ -87,41 +87,69 @@ class PlanetCollection:
     def get_array(self):
         return self.planet_array
 
-    def upply(self):
+    def apply(self):
         return db.save(self.planet_array)
 
     def add_planet(self, planet: Planet):
-        if isinstance(planet, Planet):
-            self.planet_array.append(planet)
-            return True
-        print(f"Ошибка, нельзя добавить объект типа{type(planet)}")
-        return False
+        if not isinstance(planet, Planet):
+            print(f"Ошибка, нельзя добавить объект типа{type(planet)}")
+            return False
+        if planet in self.planet_array:
+            print(f"Ошибка, объект уже существует")
+            return False
+        self.planet_array.append(planet)
+        return True
 
 
     def delete_planet(self,planet):
         if planet in self.planet_array:
-            self.planet_array.remove(Planet)    
+            self.planet_array.remove(planet)    
             return True
         
         print("Объект не найден в базе!")
         return False
 
-    def edit_planet(self):
-        pass
+    def get_cout(self):
+        return len(self.planet_array)
+    
 
-    def get_planet(self):
-        pass
+    def check_in_db(self,new_planet):
+        for p in self.planet_array:
+            if p.name == new_planet.name:
+                print(f"Планета с именем '{new_planet.name}' уже существует!")
+                return True
+            
+        return False    
+            
+
+    def edit_planet(self, old_name, new_planet):
+        for i in self.get_cout():
+
+            if self.planet_array[i].name == old_name:
+                if old_name != new_planet.name:
+                    if not self.check_in_db(new_planet) and new_planet!=self.planet_array[i]:
+
+                        self.planet_array[i] = new_planet
+                        print(f"Планета '{old_name}' изменена на '{new_planet.name}'")
+                        return True
+        
+        print(f"Планета '{old_name}' не найдена")
+        return False
+
+    def get_planet(self, name):
+        for planet in self.planet_array:
+            if planet.name == name:
+                return planet
+        return None
 
     def show_all(self):
         for i in self.planet_array:
             print(i)
 
-    def get_cout(self):
-        return len(self.planet_array)
 
     def clear_all(self):
-        self.planet_array = []
-        
+        self.planet_array.clear()
+
 
     ''' sort '''
 
