@@ -81,16 +81,30 @@ class PlanetCollection:
         planet_array = []
 
     def load(self):
-        pass
+        self.planet_array = db.load_db()
+        return True
+
+    def get_array(self):
+        return self.planet_array
 
     def upply(self):
-        pass
+        return db.save(self.planet_array)
 
-    def add_planet(self):
-        pass
+    def add_planet(self, planet: Planet):
+        if isinstance(planet, Planet):
+            self.planet_array.append(planet)
+            return True
+        print(f"Ошибка, нельзя добавить объект типа{type(planet)}")
+        return False
 
-    def delete_planet(self):
-        pass
+
+    def delete_planet(self,planet):
+        if planet in self.planet_array:
+            self.planet_array.remove(Planet)    
+            return True
+        
+        print("Объект не найден в базе!")
+        return False
 
     def edit_planet(self):
         pass
@@ -99,13 +113,15 @@ class PlanetCollection:
         pass
 
     def show_all(self):
-        pass
+        for i in self.planet_array:
+            print(i)
 
     def get_cout(self):
-        pass
+        return len(self.planet_array)
 
     def clear_all(self):
-        pass
+        self.planet_array = []
+        
 
     ''' sort '''
 
