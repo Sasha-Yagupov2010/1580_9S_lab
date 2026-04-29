@@ -81,14 +81,32 @@ class PlanetCollection:
         self.planet_array = []
 
     def load(self):
-        self.planet_array = db.load_db()
-        return True
+        try:
+            data = db.load_db()
+            if data:
+                self.planet_array = [] 
+                self.add_list_planets(data)
+                return True
+            return False
+        
+        except Exception as e:
+            print(f"Ошибка загрузки из БД: {e}")
+            return False
 
     def get_array(self):
         return self.planet_array
 
     def apply(self):
-        return db.save(self.planet_array)
+        try:
+            data_to_save = []
+            for planet in self.planet_array:
+                data_to_save.append(planet.to_dict() if isinstance(planet, Planet) else planet)
+                    
+            return db.save(data_to_save)
+        
+        except Exception as e:
+            print(f"Ошибка сохранения в БД: {e}")
+            return False
 
     def add_planet(self, planet: Planet):
         if not isinstance(planet, Planet):
@@ -99,7 +117,27 @@ class PlanetCollection:
             return False
         self.planet_array.append(planet)
         return True
+    
+    def add_list_planets(self, arr_):
 
+        for item in arr_:
+            if isinstance(item, Planet):
+                self.add_planet(item)
+
+            elif isinstance(item, dict):
+                try:
+                    planet = Planet(
+                        name=item.get('name', ''),
+                        radius=item.get('radius', 0),
+                        mass=item.get('mass', 0),
+                        distance=item.get('distance', 0),
+                        planet_type=item.get('type', '')
+                    )
+                    self.add_planet(planet)
+                except Exception as e:
+                    print(f"Ошибка создания планеты из словаря: {e}")
+            else:
+                print(f"Неизвестный тип данных: {type(item)}")
 
     def delete_planet(self,planet):
         if planet in self.planet_array:
