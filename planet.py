@@ -1,6 +1,5 @@
 import db_driver as db
 
-# planet.py
 import json
 
 class Planet:
@@ -76,36 +75,40 @@ class Planet:
             planet_type=data.get("planet_type")
         )
 
-def main():
-    planet1 = Planet(
-        name="e2", 
-        radius=560, 
-        mass=720,
-        distance=15000,
-        planet_type="каменная"
-    )
 
-    print(planet1.name)
-    print(planet1.radius)
-    print(planet1.mass)
-    print(planet1.distance)
-    print(planet1.planet_type)
+class PlanetCollection:
+    def __init__(self):
+        planet_array = []
 
+    def load(self):
+        pass
 
-def db_tester():
-    planet1 = Planet(
-        name="1", 
-        radius=5621230, 
-        mass=72123213210,
-        distance=150013321230,
-        planet_type="каменная"
-    )
-    planet2 = planet1.__copy__()
-    print(planet2)
-    
+    def upply(self):
+        pass
 
+    def add_planet(self):
+        pass
 
+    def delete_planet(self):
+        pass
 
-if __name__ == "__main__":
-    #main()
-    db_tester()
+    def edit_planet(self):
+        pass
+
+    def get_planet(self):
+        pass
+
+    def show_all(self):
+        pass
+
+    def get_cout(self):
+        pass
+
+    def clear_all(self):
+        pass
+
+    ''' sort '''
+
+    def sort_planet(self, field_key="distance"):
+        pass
+
