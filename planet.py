@@ -193,6 +193,7 @@ class PlanetCollection:
 
     ''' sort '''
 
+    """
     def sort_planet(self, field_key="distance", reverse=False):
         def sorter(p):
             if field_key == "name":
@@ -216,5 +217,35 @@ class PlanetCollection:
         except Exception as e:
             print(f"Ошибка: {e}")
             return False
-
+    """
+    def sort_planet(self, field_key="distance", reverse=False):
+        
+        n = len(self.planet_array)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                planet1 = self.planet_array[j]
+                planet2 = self.planet_array[j+1]
+                
+   
+                if field_key == "name":
+                    need_swap = planet1.name > planet2.name
+                elif field_key == "radius":
+                    need_swap = planet1.radius > planet2.radius
+                elif field_key == "mass":
+                    need_swap = planet1.mass > planet2.mass
+                elif field_key == "distance":
+                    need_swap = planet1.distance > planet2.distance
+                elif field_key == "planet_type":
+                    need_swap = planet1.planet_type > planet2.planet_type
+                else:
+                    print(f"Неизвестное поле для сортировки: '{field_key}'. Сортирую по расстоянию")
+                    need_swap = planet1.distance > planet2.distance
+                
+                if reverse:
+                    need_swap = not need_swap
+                
+                if need_swap:
+                    self.planet_array[j], self.planet_array[j+1] = self.planet_array[j+1], self.planet_array[j]
+        
+        return True
 
