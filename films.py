@@ -7,11 +7,12 @@ db = Db_Driver("films.json")
 class Film:
     _id_counter = 0
     
-    def __init__(self, name=None, radius=None,  mass=None, distance=None, film_type=None):
+    def __init__(self, name=None, rezhiser=None,  year=None, score=None, length=None, film_type=None):
         self.name = name
-        self.radius = radius
-        self.mass = mass
-        self.distance = distance
+        self.rezhiser = rezhiser
+        self.year = year
+        self.score = score
+        self.length = length
         self.film_type = film_type
 
         self.__id = Film._id_counter
@@ -21,18 +22,18 @@ class Film:
 
     def __str__(self):
         return (f"Планета '{self.name}' (ID: {self.__id}): "
-                f"Радиус={self.radius} км, Масса={self.mass} кг, "
-                f"Расстояние={self.distance} млн км, Тип='{self.film_type}'")
+                f"Радиус={self.rezhiser} км, Масса={self.year} кг, "
+                f"Расстояние={self.score} млн км, Тип='{self.film_type}'")
 
     def __repr__(self):
-        return f"Film(name='{self.name}', radius={self.radius}, mass={self.mass}, distance={self.distance}, type='{self.film_type}')"
+        return f"Film(name='{self.name}', rezhiser={self.rezhiser}, year={self.year}, score={self.score}, type='{self.film_type}')"
 
     def __copy__(self):
         return Film(
             name=self.name,
-            radius=self.radius,
-            mass=self.mass,
-            distance=self.distance,
+            rezhiser=self.rezhiser,
+            year=self.year,
+            score=self.score,
             film_type=self.film_type
         )
 
@@ -40,27 +41,28 @@ class Film:
         print(f"Удаление ID {self.__id}")
 
     def __lt__(self, other):
-        return self.distance < other.distance
+        return self.score < other.score
 
     def __eq__(self, other):
         return self.name == other.name
 
     def __gt__(self, other):
-        return self.distance > other.distance
+        return self.score > other.score
 
     def __le__(self, other):
-        return self.distance <= other.distance
+        return self.score <= other.score
 
     def __ge__(self, other):
-        return self.distance >= other.distance
+        return self.score >= other.score
 
     def to_dict(self):
         return {
             "name": self.name,
-            "radius": self.radius,
-            "mass": self.mass,
-            "distance": self.distance,
-            "film_type": self.film_type 
+            "rezhiser": self.rezhiser,
+            "year": self.year,
+            "score": self.score,
+            "length":self.length,
+            "film_type": self.film_type,
         }
     
     @staticmethod
@@ -71,9 +73,10 @@ class Film:
     def from_dict(cls, data):
         return cls(
             name=data.get("name"),
-            radius=data.get("radius"),
-            mass=data.get("mass"),
-            distance=data.get("distance"),
+            rezhiser=data.get("rezhiser"),
+            year=data.get("year"),
+            score=data.get("score"),
+            length=data.get("length"),
             film_type=data.get("film_type")
         )
 
@@ -130,14 +133,14 @@ class FilmCollection:
                 try:
                     film = Film(
                         name=item.get('name', ''),
-                        radius=item.get('radius', 0),
-                        mass=item.get('mass', 0),
-                        distance=item.get('distance', 0),
+                        rezhiser=item.get('rezhiser', 0),
+                        year=item.get('year', 0),
+                        score=item.get('score', 0),
                         film_type=item.get('film_type', '')
                     )
                     self.add_film(film)
                 except Exception as e:
-                    print(f"Ошибка создания планеты из словаря: {e}")
+                    print(f"Ошибка создания фильма из словаря: {e}")
             else:
                 print(f"Неизвестный тип данных: {type(item)}")
 
@@ -158,7 +161,7 @@ class FilmCollection:
             if p.name == new_film.name:
                 if exclude_name and p.name == exclude_name:
                     continue 
-                print(f"Планета с именем '{new_film.name}' уже существует!")
+                print(f"Фильм с названием '{new_film.name}' уже существует!")
                 return True
             return False
 
@@ -172,10 +175,10 @@ class FilmCollection:
                         return False
                 
                 self.film_array[i] = new_film
-                print(f"Планета '{old_name}' изменена на '{new_film.name}'")
+                print(f"Фильм '{old_name}' изменен на '{new_film.name}'")
                 return True
     
-        print(f"Планета '{old_name}' не найдена")
+        print(f"Фильм '{old_name}' не найден")
         return False
 
     def get_film(self, name):
@@ -195,7 +198,7 @@ class FilmCollection:
 
     ''' sort '''
 
-    def sort_film(self, field_key="distance", reverse=False):
+    def sort_film(self, field_key="score", reverse=False):
         
         n = len(self.film_array)
         for i in range(n):
@@ -206,17 +209,19 @@ class FilmCollection:
    
                 if field_key == "name":
                     need_swap = film1.name > film2.name
-                elif field_key == "radius":
-                    need_swap = film1.radius > film2.radius
-                elif field_key == "mass":
-                    need_swap = film1.mass > film2.mass
-                elif field_key == "distance":
-                    need_swap = film1.distance > film2.distance
+                elif field_key == "rezhiser":
+                    need_swap = film1.rezhiser > film2.rezhiser
+                elif field_key == "year":
+                    need_swap = film1.year > film2.year
+                elif field_key == "score":
+                    need_swap = film1.score > film2.score
+                elif field_key == "length":
+                    need_swap = film1.length > film2.length  
                 elif field_key == "film_type":
                     need_swap = film1.film_type > film2.film_type
                 else:
-                    print(f"Неизвестное поле для сортировки: '{field_key}'. Сортирую по расстоянию")
-                    need_swap = film1.distance > film2.distance
+                    print(f"Неизвестное поле для сортировки: '{field_key}'. Сортирую по рейтингу")
+                    need_swap = film1.score > film2.score
                 
                 if reverse:
                     need_swap = not need_swap
