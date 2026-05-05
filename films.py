@@ -154,6 +154,7 @@ class FilmCollection:
                         rezhiser=item.get('rezhiser', 0),
                         year=item.get('year', 0),
                         score=item.get('score', 0),
+                        length=item.get('length',0),
                         film_type=item.get('film_type', '')
                     )
                     self.add_film(film)
@@ -250,26 +251,31 @@ class FilmCollection:
         return True
     
     def search(self,data):
+        found_list = []
+
         for item in self.get_array():
             if str(item.name) == data:
-                return item
+                found_list.append(item)
             
             if str(item.rezhiser) == data:
-                return item
+                found_list.append(item)
             
             if str(item.year) == data:
-                return item
+                found_list.append(item)
             
             if str(item.score) == data:
-                return item
+                found_list.append(item)
             
             if str(item.length) == data:
-                return item
+                found_list.append(item)
             
             if str(item.film_type) == data:
-                return item
+                found_list.append(item)
             
-            return None
+            if found_list: 
+                return found_list
+            
+            return []
 
 
 
