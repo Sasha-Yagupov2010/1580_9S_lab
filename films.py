@@ -248,4 +248,32 @@ class FilmCollection:
                     self.film_array[j], self.film_array[j+1] = self.film_array[j+1], self.film_array[j]
         
         return True
+    
+    def search(self,data):
+        for item in self.get_array():
+            if str(item.name) == data:
+                return item
+            
+            if str(item.rezhiser) == data:
+                return item
+            
+            if str(item.year) == data:
+                return item
+            
+            if str(item.score) == data:
+                return item
+            
+            if str(item.length) == data:
+                return item
+            
+            if str(item.film_type) == data:
+                return item
+            
+            return None
+
+
+
+
+
+
 

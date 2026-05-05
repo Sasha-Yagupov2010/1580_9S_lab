@@ -1,68 +1,98 @@
 from planet import Planet, PlanetCollection
 from films import Film, FilmCollection
+import csv
+
+def check_mode(mode):
+    if not (mode > 0 and mode < 11):
+        print("Ошибка! нет выбранного режима")
+        return False
+    
+    return True
+
+def interactive_creating():
+    return Film()
+
+
+def write_CSV(filename, mycollection):
+    try:
+        with open('filename', 'w') as csv_file:
+            for row in mycollection.get_array():
+                print(row,file=csv_file)
+    except Exception as e:
+        print(e)
+        return False
+    
+    return True            
+
+run_program = True
 
 def main():
-    pass
-
-
-def films_collection_demo():
     collection = FilmCollection()
-    collection.load()
-    film = Film("1", "режиссер", 2020, 9.0, 2, "каменная")
-    collection.add_film(film)
 
+    print("check_mode:")
+    print("""
+1 - Загрузка БД из файла
+2 - Сохранение БД в файл
+3 - Просмотр всех записей
+4 - Добавление новой записи
+5 - Поиск записи (по разным критериям)
+6 - Редактирование записи
+7 - Удаление записи
+8 - Сортировка (по разным полям)
+9 - Экспорт в CSV
+10- Выход
+          """)
+    
+    try:
+        mode = int(input())
+        if not check_mode(mode):
+            raise ValueError
+        
+        if mode == 1:
+            collection.load()
 
-def planet_collection_demo():
-    collection = PlanetCollection()
-    
-    print("Загрузка из БД")
-    if collection.load():
-        print(f"Загружено планет: {collection.get_count()}")
-        collection.show_all()
-    else:
-        print("Ошибка загрузки из БД")
-    collection.clear_all()
+        elif mode == 2: 
+            collection.apply()
 
-    print("Добавление планет")
-    planets_to_add = [
-        Planet("Марс", 3389, 6.39e23, 227.9, "каменная"),
-        Planet("Земля", 6371, 5.97e24, 149.6, "каменная"),
-        Planet("Юпитер", 69911, 1.898e27, 778.5, "газовый гигант")
-    ]
-    
-    collection.add_list_planets(planets_to_add)
-    
+        elif mode == 3: 
+            collection.show_all()
 
-    print("Сравнение планет")
-    earth = collection.get_planet("Земля")
-    mars = collection.get_planet("Марс")
-    
-    if earth and mars:
-        print(f"Сравнение Земли и Марса:")
-        print(f"Радиус: Земля ({earth.radius}) > Марс ({mars.radius}) = {earth.radius > mars.radius}")
-        print(f"Масса: Земля ({earth.mass}) > Марс ({mars.mass}) = {earth.mass > mars.mass}")
-        print(f"Расстояние: Земля ({earth.distance}) > Марс ({mars.distance}) = {earth.distance > mars.distance}")
-    
-    print("Сортировка по имени")
-    collection.sort_planet(field_key="name",reverse=False)
-    collection.show_all()
-    
-    print("Сортировка по массе")
-    collection.sort_planet("mass", reverse=True)
-    collection.show_all()
-    
+        elif mode == 4: 
+            new_film = interactive_creating()
+            collection.add_film(new_film)
 
-    print("Сортировка по расстоянию")
-    collection.sort_planet("distance")
-    collection.show_all()
-    
-    print("Сохранение в БД")
-    if collection.apply():
-        print(f"Всего планет: {collection.get_count()}")
-    else:
-        print("Ошибка сохранения в БД")
-    
+        elif mode == 5: 
+            data = input()
+            print(collection.search(data))
+
+        elif mode == 6: 
+            new_film = interactive_creating()
+            old_film = input()
+            collection.edit_film(old_film,new_film)
+
+        elif mode == 7:
+            name = input()
+            collection.delete_film(name)    
+
+        elif mode == 8:
+            field = input()
+            collection.sort_film(field)
+
+        elif mode == 9:
+            filemame = input()
+            write_CSV(filemame,collection)
+
+        else:
+            run_program = False
+            
+
+    except Exception as e:
+        print("Ошибка ввода")
+        return    
+
+     
+
 
 if __name__ == "__main__":
-    #planet_collection_demo()
-    films_collection_demo()
+    while run_program:
+        main()
