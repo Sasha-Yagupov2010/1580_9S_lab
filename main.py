@@ -1,7 +1,15 @@
 from planet import Planet, PlanetCollection
+from films import Film, FilmCollection
 
 def main():
     pass
+
+
+def films_collection_demo():
+    collection = FilmCollection()
+    collection.load()
+    film = Film("1", "режиссер", 2020, 9.0, 2, "каменная")
+    collection.add_film(film)
 
 
 def planet_collection_demo():
@@ -56,4 +64,5 @@ def planet_collection_demo():
     
 
 if __name__ == "__main__":
-    planet_collection_demo()
+    #planet_collection_demo()
+    films_collection_demo()

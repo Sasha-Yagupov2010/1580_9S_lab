@@ -1,6 +1,6 @@
-from db_driver import Db_Driver
-db = Db_Driver("planets.json")
-import json
+from database.db_driver import Db_Driver
+db = Db_Driver("database/planets.json")
+
 
 class Planet:
     _id_counter = 0

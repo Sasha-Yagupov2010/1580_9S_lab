@@ -1,7 +1,7 @@
 # Фильм: Название, режиссер, год, жанр, рейтинг, продолжительность
 
-from db_driver import Db_Driver
-db = Db_Driver("films.json")
+from database.db_driver import Db_Driver
+db = Db_Driver("database/films.json")
 
 
 class Film:
