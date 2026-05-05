@@ -24,7 +24,7 @@ def interactive_creating():
         print("Введи название фильма")
         name=input()
 
-        print("Введи режжисера фильма")
+        print("Введи режиссера фильма")
         rezhiser=input()
 
         print("Введи год фильма")
@@ -39,6 +39,13 @@ def interactive_creating():
         print("Введи категорию фильма")
         film_type=input()
 
+        if not name:
+            raise ValueError("Название не может быть пустым")
+        if not rezhiser:
+            raise ValueError("Режиссер не может быть пустым")
+        if not film_type:
+            raise ValueError("Категория не может быть пустой")
+        
         if not check_year(year):
             raise ValueError("Неверный год")
         
@@ -55,7 +62,6 @@ def interactive_creating():
         print(f"Ошибка ввода: {e}")
         return None
     
-    return Film()
  
 
 def write_CSV(filename, mycollection):
@@ -135,19 +141,28 @@ def main():
                     if l:
                         for i in l:
                             print(i)
-                    print("Не найдено")        
+                    else:        
+                        print("Не найдено")        
 
             elif mode == 6: 
                 if collection.get_count() == 0:
                     print("Коллекция фильмов пуста.")
                 else:
+                    print("Введите название фильма для редактирования:")
+                    old_film_name = input()
+                    
+                    # Проверить, существует ли фильм
+                    old_film = collection.get_film(old_film_name)
+                    if not old_film:
+                        print(f"Фильм '{old_film_name}' не найден!")
+                        continue
+                    
+                    print(f"Редактирование фильма '{old_film_name}'")
                     new_film = interactive_creating()
-
                     if new_film is not None:
-                        old_film = input()
-                        collection.edit_film(old_film,new_film)
+                        collection.edit_film(old_film_name, new_film)
                     else:
-                        print("Ошибка замены")    
+                        print("Ошибка замены") 
 
 
             elif mode == 7:
@@ -169,10 +184,29 @@ def main():
                 if collection.get_count() == 0:
                     print("Коллекция фильмов пуста.")
                 else:
-                    field = input()
-                    collection.sort_film(field)
+                    print("Выберите поле для сортировки:")
+                    print("name - по названию")
+                    print("rezhiser - по режиссеру")
+                    print("year - по году")
+                    print("score - по рейтингу")
+                    print("length - по продолжительности")
+                    print("film_type - по категории")
 
-                    collection.show_all()
+                    try:    
+                        field = input("Введите поле для сортировки: ")
+                        
+                        print("Обратная сортировка? (y/n): ")
+                        reverse_input = input().strip().lower()
+                        reverse = reverse_input in ["y", "yes", "true", "1", "да"]
+                        
+                        if collection.sort_film(field, reverse):
+                            print(f"Сортировка по '{field}' выполнена:")
+                            collection.show_all()
+                        else:
+                            print(f"Не удалось отсортировать по полю '{field}'")
+                    except Exception as e:
+                        print(f"Ошибка сортировки: {e}")
+
 
             elif mode == 9:
                 if collection.get_count() == 0:
