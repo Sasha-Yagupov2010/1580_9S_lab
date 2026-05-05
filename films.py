@@ -272,10 +272,10 @@ class FilmCollection:
             if str(item.film_type) == data:
                 found_list.append(item)
             
-            if found_list: 
-                return found_list
-            
-            return []
+       
+        return found_list
+        
+  
 
 
 

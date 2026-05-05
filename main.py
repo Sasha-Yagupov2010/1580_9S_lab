@@ -3,11 +3,21 @@ from films import Film, FilmCollection
 import csv
 
 def check_mode(mode):
-    if not (mode > 0 and mode < 11):
+    if not (1<=mode<=10):
         print("Ошибка! нет выбранного режима")
         return False
     
     return True
+
+
+def check_year(year):
+    return year>1888
+
+def check_score(score):
+    return 0<=score<=10
+
+def check_length(length):
+    return length>0
 
 def interactive_creating():
     try:
@@ -29,10 +39,20 @@ def interactive_creating():
         print("Введи категорию фильма")
         film_type=input()
 
+        if not check_year(year):
+            raise ValueError("Неверный год")
+        
+        if not check_score(score):
+            raise ValueError("Неверный рейтинг")
+        
+        if not check_length(length):
+            raise ValueError("Неверная длина")
+       
         print("фильм успешно создан")
         return Film(name,rezhiser,year,score,length,film_type)
     
     except Exception as e:
+        print(f"Ошибка ввода: {e}")
         return None
     
     return Film()
@@ -40,14 +60,26 @@ def interactive_creating():
 
 def write_CSV(filename, mycollection):
     try:
-        with open(filename, 'w') as csv_file:
-            for row in mycollection.get_array():
-                print(row,file=csv_file)
-    except Exception as e:
-        print(e)
-        return False
+        with open(filename, 'w', newline='', encoding='utf-8') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(["Название", "Режиссер", "Год", "Рейтинг", "Продолжительность", "Категория"])
+            
+            for film in mycollection.get_array():
+                writer.writerow([
+                    film.name,
+                    film.rezhiser,
+                    film.year,
+                    film.score,
+                    film.length,
+                    film.film_type
+                ])
+        
+        print(f"Данные успешно экспортированы в {filename}")
+        return True
     
-    return True            
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        return False         
 
 
 
@@ -82,7 +114,10 @@ def main():
                 collection.apply()
 
             elif mode == 3: 
-                collection.show_all()
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
+                else:
+                    collection.show_all()
 
             elif mode == 4: 
                 new_film = interactive_creating()
@@ -92,52 +127,67 @@ def main():
                     print("Ошибка создания")    
 
             elif mode == 5: 
-                data = input()
-                l = collection.search(data)
-                if l:
-                    for i in l:
-                        print(i)
-                print("Не найдено")        
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
+                else:
+                    data = input()
+                    l = collection.search(data)
+                    if l:
+                        for i in l:
+                            print(i)
+                    print("Не найдено")        
 
             elif mode == 6: 
-                new_film = interactive_creating()
-
-                if new_film is not None:
-                    old_film = input()
-                    collection.edit_film(old_film,new_film)
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
                 else:
-                    print("Ошибка замены")    
+                    new_film = interactive_creating()
+
+                    if new_film is not None:
+                        old_film = input()
+                        collection.edit_film(old_film,new_film)
+                    else:
+                        print("Ошибка замены")    
 
 
             elif mode == 7:
-                name = input()
-                film_to_delete = collection.get_film(name)
-                if film_to_delete:
-                    if collection.delete_film(film_to_delete):
-                        print(f"Фильм '{name}' удален")
-                    else:
-                        print(f"Не удалось удалить фильм")
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
                 else:
-                    print(f"Фильм не найден!")
-
-                
-                collection.delete_film(name)    
+                    name = input()
+                    film_to_delete = collection.get_film(name)
+                    if film_to_delete:
+                        if collection.delete_film(film_to_delete):
+                            print(f"Фильм '{name}' удален")
+                        else:
+                            print(f"Не удалось удалить фильм")
+                    else:
+                        print(f"Фильм не найден!")
+  
 
             elif mode == 8:
-                field = input()
-                collection.sort_film(field)
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
+                else:
+                    field = input()
+                    collection.sort_film(field)
+
+                    collection.show_all()
 
             elif mode == 9:
-                filemame = input()
-                write_CSV(filemame,collection)
+                if collection.get_count() == 0:
+                    print("Коллекция фильмов пуста.")
+                else:
+                    filemame = input()
+                    write_CSV(filemame,collection)
 
             else:
                 run_program = False
                 
 
         except Exception as e:
-            print("Ошибка ввода")
-            return    
+            print(f"Ошибка {e}")
+            continue 
 
     
 if __name__ == "__main__":
