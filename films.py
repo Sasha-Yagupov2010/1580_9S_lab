@@ -21,9 +21,9 @@ class Film:
 
 
     def __str__(self):
-        return (f"Планета '{self.name}' (ID: {self.__id}): "
-                f"Радиус={self.rezhiser} км, Масса={self.year} кг, "
-                f"Расстояние={self.score} млн км, Тип='{self.film_type}'")
+        return (f"Фильм '{self.name}' (ID: {self.__id}): "
+                f"режиссер {self.rezhiser}, год {self.year}, "
+                f"рейтинг={self.score}, продолжительность {self.length}, тип '{self.film_type}'")
 
     def __repr__(self):
         return f"Film(name='{self.name}', rezhiser={self.rezhiser}, year={self.year}, score={self.score}, type='{self.film_type}')"
