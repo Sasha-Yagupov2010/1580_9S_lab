@@ -8,12 +8,20 @@ class Film:
     _id_counter = 0
     
     def __init__(self, name=None, rezhiser=None,  year=None, score=None, length=None, film_type=None):
-        self._name = name
-        self._rezhiser = rezhiser
-        self._year = year
-        self._score = score
-        self._length = length
-        self._film_type = film_type
+
+        self._name = None
+        self._rezhiser = None
+        self._year = None
+        self._score = None
+        self._length = None
+        self._film_type = None
+
+        self.name = name
+        self.rezhiser = rezhiser
+        self.year = year
+        self.score = score
+        self.length = length
+        self.film_type = film_type
 
         self.__id = Film._id_counter
         Film._id_counter += 1
@@ -65,19 +73,19 @@ class Film:
 
     @year.setter
     def year(self,value):
-        if not value or not isinstance(value,int) or not value >1888:
+        if not isinstance(value,int) or not value >1888:
             raise ValueError("Год должен быть числом численно больше 1888")
         self._year = value
 
     @score.setter
     def score(self,value):
-        if not value or not isinstance(value,int) or not 0<=value<=10:
+        if not isinstance(value,int) or not 0<=value<=10:
             raise ValueError("Рейтинг должен быть числом от 0 до 10 включительно")
         self._score = value    
 
     @length.setter
     def length(self,value):
-        if not value or not isinstance(value,int) or not value>0:
+        if not isinstance(value,int) or not value>0:
             raise ValueError("Длина должна быть положительным числом")
         self._length = value       
 
@@ -93,7 +101,7 @@ class Film:
         
 
     def __str__(self):
-        return (f"Фильм '{self.name}' (ID: {self.__id}): "
+        return (f"Фильм '{self.name}' (ID: {self.id}): "
                 f"режиссер {self.rezhiser}, год {self.year}, "
                 f"рейтинг={self.score}, продолжительность {self.length}, тип '{self.film_type}'")
 
@@ -106,6 +114,7 @@ class Film:
             rezhiser=self.rezhiser,
             year=self.year,
             score=self.score,
+            length=self.length,
             film_type=self.film_type
         )
 
@@ -223,7 +232,7 @@ class FilmCollection:
                 try:
                     film = Film(
                         name=item.get('name', ''),
-                        rezhiser=item.get('rezhiser', 0),
+                        rezhiser=item.get('rezhiser', ''),
                         year=item.get('year', 0),
                         score=item.get('score', 0),
                         length=item.get('length',0),
@@ -326,22 +335,22 @@ class FilmCollection:
         found_list = []
 
         for item in self.get_array():
-            if str(item.name) == data:
+            if data in str(item.name):
                 found_list.append(item)
             
-            if str(item.rezhiser) == data:
+            if data in str(item.rezhiser):
                 found_list.append(item)
             
-            if str(item.year) == data:
+            if data in str(item.year):
                 found_list.append(item)
             
-            if str(item.score) == data:
+            if data in str(item.score):
                 found_list.append(item)
             
-            if str(item.length) == data:
+            if data in str(item.length):
                 found_list.append(item)
             
-            if str(item.film_type) == data:
+            if data in str(item.film_type):
                 found_list.append(item)
             
        
