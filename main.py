@@ -3,8 +3,8 @@ from films import Film, FilmCollection
 import csv
 
 def check_mode(mode):
-    if not (1<=mode<=10):
-        print("Ошибка! нет выбранного режима")
+    if not isinstance(mode,int):
+        print("Ошибка! неверный тип данных")
         return False
     
     return True
@@ -89,12 +89,8 @@ def write_CSV(filename, mycollection):
 
 
 
-def main():
-    collection = FilmCollection()
-    run_program = True
-
-    while run_program:
-        print("check_mode:")
+def print_menu():
+        print("Выберите действие:")
         print("""
     1 - Загрузка БД из файла
     2 - Сохранение БД в файл
@@ -107,17 +103,26 @@ def main():
     9 - Экспорт в CSV
     10- Выход
             """)
-        
+
+
+def main():
+    collection = FilmCollection()
+    run_program = True
+
+    print_menu()
+    
+    while run_program:    
         try:
             mode = int(input())
             if not check_mode(mode):
-                raise ValueError
+                raise ValueError("Некорректный ввод")
             
             if mode == 1:
                 collection.load()
 
             elif mode == 2: 
                 collection.apply()
+                print("Сохранено.")
 
             elif mode == 3: 
                 if collection.get_count() == 0:
@@ -136,6 +141,7 @@ def main():
                 if collection.get_count() == 0:
                     print("Коллекция фильмов пуста.")
                 else:
+                    print("Введите информацию для поиска")
                     data = input()
                     l = collection.search(data)
                     if l:
@@ -169,6 +175,7 @@ def main():
                 if collection.get_count() == 0:
                     print("Коллекция фильмов пуста.")
                 else:
+                    print("Введите название для удаления")
                     name = input()
                     film_to_delete = collection.get_film(name)
                     if film_to_delete:
@@ -212,12 +219,16 @@ def main():
                 if collection.get_count() == 0:
                     print("Коллекция фильмов пуста.")
                 else:
+                    print("Введите имя файла для сохранения")
                     filemame = input()
                     write_CSV(filemame,collection)
 
-            else:
+            elif mode == 10:
                 run_program = False
                 
+            else:
+                print("Такой комманды нет")
+                print_menu()    
 
         except Exception as e:
             print(f"Ошибка {e}")
