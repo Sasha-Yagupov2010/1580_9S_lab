@@ -9,6 +9,9 @@ class Film:
     
     def __init__(self, name=None, rezhiser=None,  year=None, score=None, length=None, film_type=None):
 
+        self.__id = Film._id_counter
+        Film._id_counter += 1
+
         self._name = None
         self._rezhiser = None
         self._year = None
@@ -23,8 +26,7 @@ class Film:
         self.length = length
         self.film_type = film_type
 
-        self.__id = Film._id_counter
-        Film._id_counter += 1
+
         print(f"Создание ID {self.__id}")
 
 
@@ -61,36 +63,60 @@ class Film:
     """ setters """
     @name.setter
     def name(self,value):
+        if value is None:
+            self._name = None
+            return
+        
         if not value or not isinstance(value, str):
             raise ValueError("Название фильма должно быть непустой строкой")
         self._name = value
 
     @rezhiser.setter
     def rezhiser(self,value):
+        if value is None:
+            self._rezhiser = None
+            return
+                
         if not value or not isinstance(value, str):
             raise ValueError("Имя режиссера должно быть непустой строкой")
         self._rezhiser = value    
 
     @year.setter
     def year(self,value):
+        if value is None:
+            self._year = None
+            return
+                
         if not isinstance(value,int) or not value >1888:
             raise ValueError("Год должен быть числом численно больше 1888")
         self._year = value
 
     @score.setter
     def score(self,value):
+        if value is None:
+            self._score = None
+            return
+                
         if not isinstance(value,int) or not 0<=value<=10:
             raise ValueError("Рейтинг должен быть числом от 0 до 10 включительно")
         self._score = value    
 
     @length.setter
     def length(self,value):
+        if value is None:
+            self._length = None
+            return
+                
         if not isinstance(value,int) or not value>0:
             raise ValueError("Длина должна быть положительным числом")
         self._length = value       
 
     @film_type.setter
     def film_type(self,value):
+        if value is None:
+            self._film_type = None
+            return
+                
         if not value or not isinstance(value,str):
             raise ValueError("Тип фильма должен быть непустой строкой")
         
@@ -331,27 +357,34 @@ class FilmCollection:
         
         return True
     
-    def search(self,data):
+    def search(self,data:str):
         found_list = []
 
+        data = data.lower()
         for item in self.get_array():
-            if data in str(item.name):
+            if data in str(item.name).lower():
                 found_list.append(item)
+                continue
             
-            if data in str(item.rezhiser):
+            if data in str(item.rezhiser).lower():
                 found_list.append(item)
+                continue
             
-            if data in str(item.year):
+            if data in str(item.year).lower():
                 found_list.append(item)
+                continue
             
-            if data in str(item.score):
+            if data in str(item.score).lower():
                 found_list.append(item)
+                continue
             
-            if data in str(item.length):
+            if data in str(item.length).lower():
                 found_list.append(item)
+                continue
             
-            if data in str(item.film_type):
+            if data in str(item.film_type).lower():
                 found_list.append(item)
+                continue
             
        
         return found_list
