@@ -56,7 +56,8 @@ def interactive_creating():
             raise ValueError("Неверная длина")
        
         print("фильм успешно создан")
-        return Film(name,rezhiser,year,score,length,film_type)
+        film = Film(name,rezhiser,year,score,length,film_type)
+        return film
     
     except Exception as e:
         print(f"Ошибка ввода: {e}")

@@ -8,17 +8,89 @@ class Film:
     _id_counter = 0
     
     def __init__(self, name=None, rezhiser=None,  year=None, score=None, length=None, film_type=None):
-        self.name = name
-        self.rezhiser = rezhiser
-        self.year = year
-        self.score = score
-        self.length = length
-        self.film_type = film_type
+        self._name = name
+        self._rezhiser = rezhiser
+        self._year = year
+        self._score = score
+        self._length = length
+        self._film_type = film_type
 
         self.__id = Film._id_counter
         Film._id_counter += 1
         print(f"Создание ID {self.__id}")
 
+
+    """ getters """
+    @property
+    def id(self):
+        return self.__id
+    
+    @property
+    def name(self):
+        return self._name
+    
+    @property
+    def rezhiser(self):
+        return self._rezhiser
+    
+    @property
+    def year(self):
+        return self._year
+    
+    @property
+    def score(self):
+        return self._score
+    
+    @property
+    def length(self):
+        return self._length
+    
+    @property
+    def film_type(self):
+        return self._film_type
+    
+
+    """ setters """
+    @name.setter
+    def name(self,value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Название фильма должно быть непустой строкой")
+        self._name = value
+
+    @rezhiser.setter
+    def rezhiser(self,value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Имя режиссера должно быть непустой строкой")
+        self._rezhiser = value    
+
+    @year.setter
+    def year(self,value):
+        if not value or not isinstance(value,int) or not value >1888:
+            raise ValueError("Год должен быть числом численно больше 1888")
+        self._year = value
+
+    @score.setter
+    def score(self,value):
+        if not value or not isinstance(value,int) or not 0<=value<=10:
+            raise ValueError("Рейтинг должен быть числом от 0 до 10 включительно")
+        self._score = value    
+
+    @length.setter
+    def length(self,value):
+        if not value or not isinstance(value,int) or not value>0:
+            raise ValueError("Длина должна быть положительным числом")
+        self._length = value       
+
+    @film_type.setter
+    def film_type(self,value):
+        if not value or not isinstance(value,str):
+            raise ValueError("Тип фильма должен быть непустой строкой")
+        
+        if value.lower().capitalize() not in self.get_film_types():
+            print("Новый жанр!")
+
+        self._film_type = value  
+        
 
     def __str__(self):
         return (f"Фильм '{self.name}' (ID: {self.__id}): "
@@ -182,7 +254,7 @@ class FilmCollection:
                     continue 
                 print(f"Фильм с названием '{new_film.name}' уже существует!")
                 return True
-            return False
+        return False
 
 
     def edit_film(self, old_name, new_film):
@@ -276,10 +348,3 @@ class FilmCollection:
         return found_list
         
   
-
-
-
-
-
-
-
