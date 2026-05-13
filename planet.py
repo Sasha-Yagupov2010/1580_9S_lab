@@ -248,3 +248,30 @@ class PlanetCollection:
                     self.planet_array[j], self.planet_array[j+1] = self.planet_array[j+1], self.planet_array[j]
         
         return True
+    
+    def search(self, data: str):
+        found_list = []
+        data = data.lower()
+        
+        for item in self.get_array():
+            if data in str(item.name).lower():
+                found_list.append(item)
+                continue
+            
+            if data in str(item.radius).lower():
+                found_list.append(item)
+                continue
+            
+            if data in str(item.mass).lower():
+                found_list.append(item)
+                continue
+            
+            if data in str(item.distance).lower():
+                found_list.append(item)
+                continue
+            
+            if data in str(item.planet_type).lower():
+                found_list.append(item)
+                continue
+        
+        return found_list

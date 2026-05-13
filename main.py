@@ -4,28 +4,33 @@ from films import Film, FilmCollection
 from menu import *
 
 def main():
-    films_col = FilmCollection()
-    planets_col = PlanetCollection()
-    run_program = True
-
-    print_menu()
-
-    while run_program:
-        print("С какими объектами будем работать?")
-        print("1 фильмы")
-        print("2 планеты ")
-        try:
-            ans = int(input())
-            if ans == 1:
-                if films_menu(films_col):
-                    run_program = False
-            elif ans == 2:
-                if planets_menu(planets_col):
-                    run_program = False
-            else:
-                raise ValueError("Нет такого варианта!")
-        except Exception as e:
-            print("Ошибка, неправильный ввод")
+    print("Выберите коллекцию:")
+    print("1 - Фильмы")
+    print("2 - Планеты")
+    print("3 - Выход")
+    
+    try:
+        choice = int(input())
+        
+        if choice == 1:
+            films_col = FilmCollection()
+            films_menu(films_col)
+        
+        elif choice == 2:
+            planets_col = PlanetCollection()
+            planets_menu(planets_col)
+        
+        elif choice == 3:
+            print("Выход из программы")
+            return True
+        
+        else:
+            print("Неверный выбор")
+            return False
+    
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        return False
 
 
 if __name__ == "__main__":
