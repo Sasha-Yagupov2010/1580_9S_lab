@@ -50,7 +50,6 @@ def write_planet_CSV(filename, planets_col):
         return False
 
 
-
 def check_radius(radius):
     return radius > 0
 
@@ -103,6 +102,82 @@ def interactive_creating_planet():
         return None
 
 
+def edit_planet_field(planet, planets_col):
+    """Редактирование отдельных полей планеты"""
+    try:
+        print(f"Редактирование планеты '{planet.name}'")
+        print("Выберите поле для редактирования:")
+        print("1 - Название")
+        print("2 - Радиус")
+        print("3 - Масса")
+        print("4 - Расстояние")
+        print("5 - Тип планеты")
+        print("6 - Все поля")
+        
+        field_choice = int(input())
+        
+        if field_choice == 1:
+            print("Введите новое название:")
+            new_name = input()
+            if new_name:
+                planet.name = new_name
+                print("Название изменено")
+        
+        elif field_choice == 2:
+            print("Введите новый радиус (км):")
+            new_radius = float(input())
+            if check_radius(new_radius):
+                planet.radius = new_radius
+                print("Радиус изменен")
+        
+        elif field_choice == 3:
+            print("Введите новую массу (кг):")
+            new_mass = float(input())
+            if check_mass(new_mass):
+                planet.mass = new_mass
+                print("Масса изменена")
+        
+        elif field_choice == 4:
+            print("Введите новое расстояние (млн км):")
+            new_distance = float(input())
+            if check_distance(new_distance):
+                planet.distance = new_distance
+                print("Расстояние изменено")
+        
+        elif field_choice == 5:
+            print("Введите новый тип планеты:")
+            new_type = input()
+            if new_type:
+                planet.planet_type = new_type
+                print("Тип планеты изменен")
+        
+        elif field_choice == 6:
+            # Полное редактирование через создание новой планеты
+            new_planet = interactive_creating_planet()
+            if new_planet:
+                if planets_col.check_in_db(new_planet, exclude_name=planet.name):
+                    print(f"Планета с названием '{new_planet.name}' уже существует!")
+                    return False
+                
+                # Обновление всех полей
+                planet.name = new_planet.name
+                planet.radius = new_planet.radius
+                planet.mass = new_planet.mass
+                planet.distance = new_planet.distance
+                planet.planet_type = new_planet.planet_type
+                print("Все поля планеты изменены")
+        
+        else:
+            print("Неверный выбор поля")
+            return False
+        
+        return True
+    
+    except Exception as e:
+        print(f"Ошибка редактирования: {e}")
+        return False
+
+
 def planets_menu(planets_col):
     print_menu()
     while True:
@@ -125,9 +200,9 @@ def planets_menu(planets_col):
                     planets_col.show_all()
 
             elif mode == 4:
-                new_planet = interactive_creating_planet()
-                if new_planet is not None:
-                    planets_col.add_planet(new_planet)
+                new_cycle = interactive_creating_planet()
+                if new_cycle is not None:
+                    planets_col.add_planet(new_cycle)
                 else:
                     print("Ошибка создания")
 
@@ -149,19 +224,14 @@ def planets_menu(planets_col):
                     print("Коллекция планет пуста.")
                 else:
                     print("Введите название планеты для редактирования:")
-                    old_planet_name = input()
-
-                    # Проверить, существует ли планета
-                    old_planet = planets_col.get_planet(old_planet_name)
-                    if not old_planet:
-                        print(f"Планета '{old_planet_name}' не найдена!")
-
-                    print(f"Редактирование планеты '{old_planet_name}'")
-                    new_planet = interactive_creating_planet()
-                    if new_planet is not None:
-                        planets_col.edit_planet(old_planet_name, new_planet)
+                    planet_name = input()
+                    
+                    planet = planets_col.get_planet(planet_name)
+                    if not planet:
+                        print(f"Планета '{planet_name}' не найдена!")
                     else:
-                        print("Ошибка замены")
+                        if edit_planet_field(planet, planets_col):
+                            print(f"Планета '{planet_name}' успешно изменена")
 
             elif mode == 7:
                 if planets_col.get_count() == 0:
@@ -250,7 +320,6 @@ def write_film_CSV(filename, films_col):
         return False
 
 
-
 def check_year(year):
     return year > 1888
 
@@ -308,6 +377,91 @@ def interactive_creating_film():
         return None
 
 
+def edit_film_field(film, films_col):
+    """Редактирование отдельных полей фильма"""
+    try:
+        print(f"Редактирование фильма '{film.name}'")
+        print("Выберите поле для редактирования:")
+        print("1 - Название")
+        print("2 - Режиссер")
+        print("3 - Год")
+        print("4 - Рейтинг")
+        print("5 - Продолжительность")
+        print("6 - Категория")
+        print("7 - Все поля")
+        
+        field_choice = int(input())
+        
+        if field_choice == 1:
+            print("Введите новое название:")
+            new_name = input()
+            if new_name:
+                film.name = new_name
+                print("Название изменено")
+        
+        elif field_choice == 2:
+            print("Введите нового режиссера:")
+            new_rezhiser = input()
+            if new_rezhiser:
+                film.rezhiser = new_rezhiser
+                print("Режиссер изменен")
+        
+        elif field_choice == 3:
+            print("Введите новый год:")
+            new_year = int(input())
+            if check_year(new_year):
+                film.year = new_year
+                print("Год изменен")
+        
+        elif field_choice == 4:
+            print("Введите новый рейтинг:")
+            new_score = int(input())
+            if check_score(new_score):
+                film.score = new_score
+                print("Рейтинг изменен")
+        
+        elif field_choice == 5:
+            print("Введите новую продолжительность:")
+            new_length = int(input())
+            if check_length(new_length):
+                film.length = new_length
+                print("Продолжительность изменена")
+        
+        elif field_choice == 6:
+            print("Введите новую категорию:")
+            new_type = input()
+            if new_type:
+                film.film_type = new_type
+                print("Категория изменена")
+        
+        elif field_choice == 7:
+            new_film = interactive_creating_film()
+            if new_film:
+                # Проверка уникальности имени
+                if films_col.check_in_db(new_film, exclude_name=film.name):
+                    print(f"Фильм с названием '{new_film.name}' уже существует!")
+                    return False
+                
+                # Обновление всех полей
+                film.name = new_film.name
+                film.rezhiser = new_film.rezhiser
+                film.year = new_film.year
+                film.score = new_film.score
+                film.length = new_film.length
+                film.film_type = new_film.film_type
+                print("Все поля фильма изменены")
+        
+        else:
+            print("Неверный выбор поля")
+            return False
+        
+        return True
+    
+    except Exception as e:
+        print(f"Ошибка редактирования: {e}")
+        return False
+
+
 def films_menu(films_col):
     print_menu()
     while True:
@@ -354,19 +508,14 @@ def films_menu(films_col):
                     print("Коллекция фильмов пуста.")
                 else:
                     print("Введите название фильма для редактирования:")
-                    old_film_name = input()
-
-                    # Проверить, существует ли фильм
-                    old_film = films_col.get_film(old_film_name)
-                    if not old_film:
-                        print(f"Фильм '{old_film_name}' не найден!")
-
-                    print(f"Редактирование фильма '{old_film_name}'")
-                    new_film = interactive_creating_film()
-                    if new_film is not None:
-                        films_col.edit_film(old_film_name, new_film)
+                    film_name = input()
+                    
+                    film = films_col.get_film(film_name)
+                    if not film:
+                        print(f"Фильм '{film_name}' не найден!")
                     else:
-                        print("Ошибка замены")
+                        if edit_film_field(film, films_col):
+                            print(f"Фильм '{film_name}' успешно изменен")
 
             elif mode == 7:
                 if films_col.get_count() == 0:
