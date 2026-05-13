@@ -5,6 +5,7 @@ from menu import *
 
 def main():
     films_col = FilmCollection()
+    planets_col = PlanetCollection()
     run_program = True
 
     print_menu()
@@ -19,7 +20,8 @@ def main():
                 if films_menu(films_col):
                     run_program = False
             elif ans == 2:
-                pass
+                if planets_menu(planets_col):
+                    run_program = False
             else:
                 raise ValueError("Нет такого варианта!")
         except Exception as e:

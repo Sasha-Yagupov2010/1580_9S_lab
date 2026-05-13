@@ -2,32 +2,8 @@ from planet import Planet, PlanetCollection
 from films import Film, FilmCollection
 import csv
 
+
 """ относится и к планетам и к фильмам"""
-def write_CSV(filename, myfilms_col):
-    try:
-        with open(filename, 'w', newline='', encoding='utf-8') as csv_file:
-            writer = csv.writer(csv_file)
-            writer.writerow(["Название", "Режиссер", "Год",
-                            "Рейтинг", "Продолжительность", "Категория"])
-
-            for film in myfilms_col.get_array():
-                writer.writerow([
-                    film.name,
-                    film.rezhiser,
-                    film.year,
-                    film.score,
-                    film.length,
-                    film.film_type
-                ])
-
-        print(f"Данные успешно экспортированы в {filename}")
-        return True
-
-    except Exception as e:
-        print(f"Ошибка: {e}")
-        return False
-
-
 def print_menu():
     print("Выберите действие:")
     print("""
@@ -63,6 +39,32 @@ def check_score(score):
 
 def check_length(length):
     return length > 0
+
+
+def write_planet_CSV(filename, myfilms_col):
+    try:
+        with open(filename, 'w', newline='', encoding='utf-8') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(["Название", "Режиссер", "Год",
+                            "Рейтинг", "Продолжительность", "Категория"])
+
+            for film in myfilms_col.get_array():
+                writer.writerow([
+                    film.name,
+                    film.rezhiser,
+                    film.year,
+                    film.score,
+                    film.length,
+                    film.film_type
+                ])
+
+        print(f"Данные успешно экспортированы в {filename}")
+        return True
+
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        return False
+
 
 
 def interactive_creating_film():
@@ -217,7 +219,7 @@ def films_menu(films_col):
             else:
                 print("Введите имя файла для сохранения")
                 filemame = input()
-                write_CSV(filemame, films_col)
+                write_planet_CSV(filemame, films_col)
 
         elif mode == 10:
             return True #выход
@@ -228,3 +230,5 @@ def films_menu(films_col):
 
     except Exception as e:
         print(f"Ошибка {e}")
+
+""" planets_menu(planets_col) """        
